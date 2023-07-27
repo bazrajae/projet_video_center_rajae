@@ -37,6 +37,11 @@
     <a href="{{ path('app_home') }}">back to list</a>
 
     <a href="{{ path('app_video_edit', {'id': video.id}) }}">edit</a>
+    <iframe width="640" height="480" src={{video.videoLink}}></iframe>
 
     {{ include('video/_delete_form.html.twig') }}
 {% endblock %}
+
+
+
+

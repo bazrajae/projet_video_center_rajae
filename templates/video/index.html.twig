@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{# {% extends 'base.html.twig' %}
 
 {% block title %}Video index{% endblock %}
 
@@ -40,4 +40,37 @@
     </table>
 
     <a href="{{ path('app_video_create') }}">Create new</a>
+{% endblock %} #}
+
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+   {% set video_count = videos|length %}
+    {{ video_count }}
+
+
+    <main class="container">
+        <section class="row">
+            <div class="col-12">
+                <h1>Site Video center</h1>
+                <p>Bienvenue Chez nous</p>            
+            </div>
+            {% for video in videos %}
+                    <div class="col-4">
+                        <div class="card h-60 ">
+                            <div class="card-body mt-4">
+                             <h3 class="card-title"><a href="{{ path('app_video_show', {id: video.id}) }}">{{ video.id }} {{ video.title }} </a></h3>  
+                             <iframe width="300" height="200" src={{video.videoLink}}></iframe>
+                            <p class="card-text">{{ video.description|u.truncate(10,'...',false)  }}</p>
+                            <p>Submitted {{ video.createdAt|ago }}</p> 
+                            </div>
+                        </div>
+                    </div>    
+            {% endfor %}
+        </section>
+    </main>
+
+  
 {% endblock %}
