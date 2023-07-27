@@ -25,14 +25,17 @@ class VideoController extends AbstractController
     #[Route('/video/create', name: 'app_video_create', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+
+        
         $video = new Video();
         $form = $this->createForm(VideoType::class, $video);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $video->setUser($this->getUser());
             $entityManager->persist($video);
             $entityManager->flush();
-
+            $this->addFlash('success', 'Votre video a été creer avec success!');
             return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -45,6 +48,7 @@ class VideoController extends AbstractController
     #[Route('/video/{id}', name: 'app_video_show', methods: ['GET'])]
     public function show(Video $video): Response
     {
+       
         return $this->render('video/show.html.twig', [
             'video' => $video,
         ]);
@@ -58,7 +62,7 @@ class VideoController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-
+            $this->addFlash('success', 'Votre video a été éditer avec success!');
             return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -75,7 +79,7 @@ class VideoController extends AbstractController
             $entityManager->remove($video);
             $entityManager->flush();
         }
-
+        $this->addFlash('success', 'Votre video a été supprimer avec success!');
         return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
     }
 }

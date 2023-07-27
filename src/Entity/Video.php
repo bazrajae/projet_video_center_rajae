@@ -5,6 +5,7 @@ use App\Entity\Traits\Timestampable;
 use App\Repository\VideoRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -12,6 +13,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[ORM\Entity(repositoryClass: VideoRepository::class)]
 #[ORM\Table(name: "videos")]
 #[ORM\HasLifecycleCallbacks]
+#[UniqueEntity(fields: ['email'], message: 'cette émail existe déja')]
 #[Vich\Uploadable]
 
 class Video
@@ -58,6 +60,10 @@ class Video
     #[ORM\Column]
     private ?bool $isPremiumvideo = null;
 
+    #[ORM\ManyToOne(inversedBy: 'videos')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
     public function getTitle(): ?string
     {
         return $this->title;
@@ -102,6 +108,18 @@ class Video
     public function setIsPremiumvideo(bool $isPremiumvideo): static
     {
         $this->isPremiumvideo = $isPremiumvideo;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

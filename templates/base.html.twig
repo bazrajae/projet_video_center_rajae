@@ -37,7 +37,13 @@
     </head>
     <body>
      {{ include("/layouts/partials/_nav.html.twig") }}
-
+   {% for type, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ type }}" role="alert">
+                                {{ message }}
+                        </div>
+                    {% endfor %}
+            {% endfor %}
    
         <main role="main" class="container">
         {% block body %}{% endblock %}

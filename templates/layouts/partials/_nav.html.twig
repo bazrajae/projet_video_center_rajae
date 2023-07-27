@@ -7,7 +7,7 @@
 
 		<div class="collapse navbar-collapse" id="navbarsExample03">
 			<ul class="navbar-nav me-auto mb-2 mb-sm-0">
-				
+				 {% if app.user %}
 					<li class="nav-item">
 						<a class="nav-link" aria-current="page" href="{{ path('app_video_create') }}">Creer Video</a>
 					</li>
@@ -16,16 +16,16 @@
 						<a class="nav-link" href="#">Account</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#">Logout</a>
+						<a class="nav-link" href="{{ path('app_logout') }}">Logout</a>
 					</li>
-				
+				{% else %}
 					<li class="nav-item">
-						<a class="nav-link" href="#">Register</a>
-					</li>
+            <a class="nav-link" href="{{ path ('app_register') }}">Register</a>
+          </li>
 					<li class="nav-item">
-						<a class="nav-link" href="#">Login</a>
+						<a class="nav-link" href="{{ path('app_login') }}">Login</a>
 					</li>
-				
+				{% endif %}
 				
 				{# <li class="nav-item dropdown">
 								            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</a>
