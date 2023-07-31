@@ -13,7 +13,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[ORM\Entity(repositoryClass: VideoRepository::class)]
 #[ORM\Table(name: "videos")]
 #[ORM\HasLifecycleCallbacks]
-#[UniqueEntity(fields: ['email'], message: 'cette émail existe déja')]
+
 #[Vich\Uploadable]
 
 class Video

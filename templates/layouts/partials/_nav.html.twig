@@ -8,12 +8,13 @@
 		<div class="collapse navbar-collapse" id="navbarsExample03">
 			<ul class="navbar-nav me-auto mb-2 mb-sm-0">
 				 {% if app.user %}
+				 {% if app.user.isVerified %}
 					<li class="nav-item">
 						<a class="nav-link" aria-current="page" href="{{ path('app_video_create') }}">Creer Video</a>
 					</li>
-					
+					{% endif %}
 					<li class="nav-item">
-						<a class="nav-link" href="#">Account</a>
+						<a class="nav-link" href="{{ path('app_account') }}">Account</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="{{ path('app_logout') }}">Logout</a>
