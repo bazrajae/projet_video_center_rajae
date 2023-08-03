@@ -12,7 +12,7 @@
              <img width="200" height="200" class="bd-placeholder-img rounded-circle" src={{ vich_uploader_asset(app.user, 'imageFile') }}>
             <p>{{ app.user.email }}</p>
             <h2>{{ app.user.firstname ~" "~ app.user.lastname }}</h2>
-            <p>Account created on {{ app.user.createdAt|date }}</p>
+            <p>Compte créé le {{ app.user.createdAt|date }}</p>
 
     <div class = "container text-center">
       <div class = "row">
@@ -24,20 +24,20 @@
              <h3><a href={{ path('app_video_show', {id: video.id}) }}>{{ video.title}}</a></h3>
              <iframe width="300" height="200" src={{video.videoLink}}></iframe>
             <h5>{{ video.description|u.truncate(15,'...',false) }}</h5> 
-             <p>Submitted {{ video.createdAt|ago }}
-             <p>By {{ video.user.firstname ~ ' ' ~ video.user.lastname }} 
+             <p>Soumis {{ video.createdAt|ago }}
+             <p>Par {{ video.user.firstname ~ ' ' ~ video.user.lastname }} 
             <div>
              
             </div>
             </article>
 
     {% else %}
-        <p> Sorry, no video yet </p>
+        <p> Désolé, pas encore de vidéo </p>
     {% endfor %}
     </div>
     </div>
             <p>
-                <a href={{path('app_account_edit')}}>Edit Account</a>
+                <a href={{path('app_account_edit')}}>Modifier le compte</a>
             </p>
         </div>
     </div>

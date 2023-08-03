@@ -13,7 +13,7 @@ class SecurityController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
-            $this->addFlash('error', 'Already Connected as ' . $authenticationUtils->getLastUsername());
+            $this->addFlash('error', 'Déjà connecté en tant que ' . $authenticationUtils->getLastUsername());
             return $this->redirectToRoute('app_home');
         }
         // get the login error if there is one

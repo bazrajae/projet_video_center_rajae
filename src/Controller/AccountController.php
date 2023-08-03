@@ -24,7 +24,7 @@ class AccountController extends AbstractController
     public function edit(Request $request, EntityManagerInterface $em): Response
     {
         if (!$this->getUser()){
-            $this->addFlash('error', 'Your not edit account!');
+            $this->addFlash('error', 'Votre compte n est pas modifié !');
             return $this->redirectToRoute('app_login');
         }
         $user = $this->getUser();
@@ -33,7 +33,7 @@ class AccountController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
-            $this->addFlash('success', 'Account successfuly updated !');
+            $this->addFlash('success', 'Compte mis à jour avec succès !');
             return $this->redirectToRoute('app_account');
         }
         return $this->render('account/edit.html.twig', [

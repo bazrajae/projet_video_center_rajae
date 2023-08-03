@@ -47,11 +47,14 @@
 
 {% block body %}
 
-   {% set video_count = videos|length %}
-	{{ video_count }}
+   {# {% set video_count = videos|length %}
+	{{ video_count }} #}
 
 	{%  include 'search/_search_data.html.twig'  with {form:form} only  %}
 
+  {% if search == true %}
+     {{ totalVideos }} video(s) trouvée(s) avec le terme  {{ searchData }}
+{% endif %}
 
     <main class="container">
         <section class="row">
@@ -70,8 +73,8 @@
                              <h3 class="card-title"><a href="{{ path('app_video_show', {id: video.id}) }}">{{ video.id }} {{ video.title }} </a></h3>  
                              <iframe width="300" height="200" src={{video.videoLink}}></iframe>
                             <p class="card-text">{{ video.description|u.truncate(10,'...',false)  }}</p>
-                            <p>Submitted {{ video.createdAt|ago }}</p> 
-                             <p>By {{ video.user.firstname~ " "~video.user.lastname }}</p>
+                            <p>Soumis {{ video.createdAt|ago }}</p> 
+                             <p>Par {{ video.user.firstname~ " "~video.user.lastname }}</p>
                              {% if video.isPremiumVideo  %}
 			                   <p > Premium Video </p>
 		                     {% else %}
@@ -88,8 +91,8 @@
                              <h3 class="card-title"><a href="{{ path('app_video_show', {id: video.id}) }}">{{ video.id }} {{ video.title }} </a></h3>  
                              <iframe width="300" height="200" src={{video.videoLink}}></iframe>
                             <p class="card-text">{{ video.description|u.truncate(10,'...',false)  }}</p>
-                            <p>Submitted {{ video.createdAt|ago }}</p> 
-                             <p>By {{ video.user.firstname~ " "~video.user.lastname }}</p>
+                            <p>Soumis {{ video.createdAt|ago }}</p> 
+                             <p>Par {{ video.user.firstname~ " "~video.user.lastname }}</p>
                              {% if video.isPremiumVideo  %}
 			                   <p > Premium Video </p>
 		                     {% else %}

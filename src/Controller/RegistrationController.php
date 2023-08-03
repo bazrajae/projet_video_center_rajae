@@ -29,7 +29,7 @@ class RegistrationController extends AbstractController
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         if ($this->getUser()) {
-            $this->addFlash('error', 'Already Connected ');
+            $this->addFlash('error', 'Déjà connecté ');
             return $this->redirectToRoute('app_home');
         }
         $user = new User();
@@ -81,7 +81,7 @@ class RegistrationController extends AbstractController
         }
 
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
-        $this->addFlash('success', 'Your email address has been verified.');
+        $this->addFlash('primary', 'Votre adresse e-mail a été vérifiée.');
 
         return $this->redirectToRoute('app_home');
     }

@@ -41,14 +41,20 @@ class VideoController extends AbstractController
                 $request->query->get('page', 1),
                 6
             );
+             
+            $search = true;
+
+            // Obtenir le nombre total de vidéos trouvées lors de la recherche
+            $totalVideos = $pagination->getTotalItemCount();
+
             return $this->render('video/index.html.twig', [
 
                 'form' => $form,
                 'pagination' => $pagination,
                 'search' => $search,
                 'searchData' => $searchData->q,
-                'videos' => $videoRepository->findBySearch($searchData)
-
+                'videos' => $videoRepository->findBySearch($searchData),
+                'totalVideos' => $totalVideos,
             ]);
 
         }
@@ -65,12 +71,12 @@ class VideoController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         if ($this->getUser()){
-            if ($this->getUser()->isVerified() == false) {
+            if ($this->getUser()->isVerified() == false and Video.isPremiumvideo()== true) {
                 $this->addFlash('error', 'Vous devez confirmer votre email pour creer une video!');
                 return $this->redirectToRoute('app_home');
             } 
         }else{
-            $this->addFlash('error', 'Vous devez vous connecter pour creer une voiture!');
+            $this->addFlash('error', 'Vous devez vous connecter pour créer une voiture!');
             return $this->redirectToRoute('app_login');
         }
 
@@ -96,7 +102,19 @@ class VideoController extends AbstractController
     #[Route('/video/{id}', name: 'app_video_show', methods: ['GET'])]
     public function show(Video $video): Response
     {
-       
+//         Si je ne suis pas connecté ou un utilisateur non vérifié, faites en sorte qu’on ne puisse 
+// pas accéder via l’URL aux pages des vidéos premium
+        if ($this->getUser()){
+            if ($this->getUser()->isVerified() == false) {
+            $this->addFlash('error', 'Vous devez vous  loguer afin d\'avoir accèes aux vidéo premium');
+            return $this->redirectToRoute('app_login');
+            } 
+            }else{
+            $this->addFlash('error', 'vous devez vous enregistrer pour avoir accés aux vidéo premium!');
+            return $this->redirectToRoute('app_register');
+            }
+
+
         return $this->render('video/show.html.twig', [
             'video' => $video,
         ]);
@@ -110,11 +128,11 @@ class VideoController extends AbstractController
                 $this->addFlash('error', 'Vous devez vous connecter pour editer video!');
                 return $this->redirectToRoute('app_home');
             } else if ($video->getUser()->getEmail() !== $this->getUser()->getEmail()) {
-                $this->addFlash('error', 'Vous devez etre l utilisateur ' . $video->getUser()->getFirstname() . ' to edit this video !');
+                $this->addFlash('error', 'Vous devez etre l utilisateur ' . $video->getUser()->getFirstname() . ' pour editer la video !');
                 return $this->redirectToRoute('app_home');
             }
         } else {
-            $this->addFlash('error', 'vous devez vous connecter pour editer video!');
+            $this->addFlash('error', 'vous devez vous se connecter pour editer la video!');
             return $this->redirectToRoute('app_login');
         }
         $form = $this->createForm(VideoType::class, $video);
@@ -137,14 +155,14 @@ class VideoController extends AbstractController
     {
         if ($this->getUser()) {
             if ($this->getUser()->isVerified() == false) {
-                $this->addFlash('error', 'Vous devez vous connecter pour supprimer video!');
+                $this->addFlash('error', 'Vous devez vous se connecter pour supprimer la video!');
                 return $this->redirectToRoute('app_home');
             } else if ($video->getUser()->getEmail() !== $this->getUser()->getEmail()) {
-                $this->addFlash('error', 'Vous devez etre l utilisateur ' . $video->getUser()->getFirstname() . ' to edit this video !');
+                $this->addFlash('error', 'Vous devez etre l utilisateur ' . $video->getUser()->getFirstname() . ' pour supprimer la video !');
                 return $this->redirectToRoute('app_home');
             }
         } else {
-            $this->addFlash('error', 'vous devez vous connecter pour supprimer video!');
+            $this->addFlash('error', 'vous devez vous se connecter pour supprimer la video!');
             return $this->redirectToRoute('app_login');
         }
         if ($this->isCsrfTokenValid('delete'.$video->getId(), $request->request->get('_token'))) {

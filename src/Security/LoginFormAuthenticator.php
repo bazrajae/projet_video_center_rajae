@@ -44,14 +44,14 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        $request->getSession()->getFlashBag()->add('success', 'Bienvenue ' .
+        $request->getSession()->getFlashBag()->add('primary', 'Bienvenue ' .
         $token->getUser()->getFirstname() . ' !');
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
 
         // For example:
-         return new RedirectResponse($this->urlGenerator->generate('app_home'));
+         return new RedirectResponse($this->urlGenerator->generate('app_account'));
         // throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 
