@@ -22,16 +22,25 @@ class VideoRepository extends ServiceEntityRepository
         parent::__construct($registry, Video::class);
     }
 
-    public function paginationQuery()
-   {
-       return $this->createQueryBuilder('v')
-         
-           ->orderBy('v.id', 'ASC')
-         
-           ->getQuery()
-        
-       ;
-   }
+    public function paginationQuery($user)
+    {
+        $qb = $this->createQueryBuilder('v')
+            ->orderBy('v.id', 'ASC');
+
+        if ($user && $user->isVerified()) {
+          // quand utilisateur est connecté et vérifié il peut voir toutes les vidéos
+          // Utilisation de l'opérateur OR pour prend les vidéos premium et non premium
+          $qb->andWhere('v.isPremiumvideo = :isPremiumvideo OR v.isPremiumvideo = :isNotPremiumVideo')
+             ->setParameter('isPremiumvideo', true)
+             ->setParameter('isNotPremiumVideo', true);
+      } else {
+          // L'utilisateur n'est pas connecté ou n'est pas vérifié, il peut voir uniquement les vidéos premium
+          $qb->andWhere('v.isPremiumvideo = :isPremiumvideo')
+             ->setParameter('isPremiumvideo', false);
+      }
+
+        return $qb->getQuery();
+    }
 
    public function findBySearch(SearchData $searchData)
     {

@@ -21,10 +21,11 @@ class VideoController extends AbstractController
     #[Route('/', name: 'app_home', methods: ['GET'])]
     public function index(VideoRepository $videoRepository, Request $request, PaginatorInterface $paginator): Response
     {
+        $user = $this->getUser();
         $pagination = $paginator->paginate(
-            $videoRepository->paginationQuery(),
+            $videoRepository->paginationQuery($user),
             $request->query->get('page', 1),
-            3
+            9
             // ici 9
         );
         $search = false;
