@@ -107,12 +107,12 @@ class VideoController extends AbstractController
 // pas accéder via l’URL aux pages des vidéos premium
         if ($this->getUser()){
             if ($this->getUser()->isVerified() == false) {
-            $this->addFlash('error', 'Vous devez vous  loguer afin d\'avoir accèes aux vidéo premium');
-            return $this->redirectToRoute('app_login');
+            $this->addFlash('error', 'Vous devez vous  confirmé votre email afin d\'avoir accèes aux vidéo premium');
+            return $this->redirectToRoute('app_home');
             } 
             }else{
-            $this->addFlash('error', 'vous devez vous enregistrer pour avoir accés aux vidéo premium!');
-            return $this->redirectToRoute('app_register');
+            $this->addFlash('error', 'vous devez vous connecté pour avoir accés aux vidéo premium!');
+            return $this->redirectToRoute('app_login');
             }
 
 

@@ -1,46 +1,3 @@
-{# {% extends 'base.html.twig' %}
-
-{% block title %}Video index{% endblock %}
-
-{% block body %}
-    <h1>Video index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>VideoLink</th>
-                <th>Description</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for video in videos %}
-            <tr>
-                <td>{{ video.id }}</td>
-                <td>{{ video.title }}</td>
-                <td>{{ video.videoLink }}</td>
-                <td>{{ video.description }}</td>
-                <td>{{ video.createdAt ? video.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ video.updatedAt ? video.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_video_show', {'id': video.id}) }}">show</a>
-                    <a href="{{ path('app_video_edit', {'id': video.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_video_create') }}">Create new</a>
-{% endblock %} #}
 
 
 {% extends 'base.html.twig' %}
@@ -56,47 +13,69 @@
      {{ totalVideos }} video(s) trouvée(s) avec le terme  {{ searchData }}
 {% endif %}
 
-    <main class="container">
-        <section class="row">
-            <div class="col-12">
-                <h1>Site Video center</h1>
-                <p>Bienvenue Chez nous</p>            
+    <main class="container-fluid bg-dark">
+        <section class="row my-5 py-5 ">
+            <div class="col-12 text-center">
+                <h2 class="text-secondary">Site Video center</h2>
+                <p class="text-secondary">Sur ce site vous trouverez plusieurs vidéos intéréressantes,Pour certains</br> video il faudra etre enregistrer par les vors</p>  
+                <button class="btn btn-outline-primary"><a class="text-decoration-none" href="{{ path ('app_register') }}">Créer un compte</a></button>   
+                <button class="btn btn-outline-secondary"><a class="text-decoration-none" href="{{ path('app_login') }}">Se connecter</a></button>       
             </div>
+            </section>
+        
+
+        <section class="row my-5 py-5">
+        <div class="col-12">
+         <iframe width="100%" height="250" src="https://www.youtube.com/embed/T3vVjfFmLSQ"></iframe>
+        </div>
+        </section>
+            <section class="row bg-secondary px-2 py-5">
             {% for video in pagination %}
 
             
     {% if video.isPremiumVideo %}
         {% if app.user and app.user.isVerified %}
-             <div class="col-4">
-                        <div class="card h-60 ">
-                            <div class="card-body mt-4">
-                             <h3 class="card-title"><a href="{{ path('app_video_show', {id: video.id}) }}">{{ video.id }} {{ video.title }} </a></h3>  
-                             <iframe width="300" height="200" src={{video.videoLink}}></iframe>
-                            <p class="card-text">{{ video.description|u.truncate(10,'...',false)  }}</p>
-                            <p>Soumis {{ video.createdAt|ago }}</p> 
-                             <p>Par {{ video.user.firstname~ " "~video.user.lastname }}</p>
+                <div class="col-sm-4 col-md-4 col-lg-4 mt-4">
+                        <div class="card bg-dark ">
+                        <div class="card-header p-0"> <iframe width="100%" height="220" src={{video.videoLink}}></iframe></div>
+                            <div class="card-body">
+                              
+                            
+                              <h3 class="card-title "><a class="text-secondary text-decoration-none" href="{{ path('app_video_show', {id: video.id}) }}">{{ video.id }} {{ video.title }} </a></h3>
+                            <p class="card-text text-white">{{ video.description|u.truncate(10,'...',false)  }}</p>
+                            <div class="row">
+                            <div class="col-4"><a class="btn btn-outline-secondary" href="{{ path('app_video_show', {id: video.id}) }}">Détail</a></div>
+                            <div class="col-8" style="text-align:right;"><p class="text-secondary">Soumis {{ video.createdAt|ago }} Par {{ video.user.firstname~ " "~video.user.lastname }}</p></div>
+                            </div>
+                           
                              {% if video.isPremiumVideo  %}
-			                   <p > Premium Video </p>
+			                   <p class="text-white"> Premium Video </p>
 		                     {% else %}
-			                   <p > Non premium </p>
+			                   <p class="text-white" > Non Premium </p>
 		                     {% endif %} 
                             </div>
                         </div>
                     </div>    
-        {% endif %}
+    {% endif %}
     {% else %}
-        <div class="col-4">
-                        <div class="card h-60 ">
-                            <div class="card-body mt-4">
-                             <h3 class="card-title"><a href="{{ path('app_video_show', {id: video.id}) }}">{{ video.id }} {{ video.title }} </a></h3>  
-                             <iframe width="300" height="200" src={{video.videoLink}}></iframe>
-                            <p class="card-text">{{ video.description|u.truncate(10,'...',false)  }}</p>
-                            <p>Soumis {{ video.createdAt|ago }}</p> 
-                             <p>Par {{ video.user.firstname~ " "~video.user.lastname }}</p>
+
+        <div class="col-sm-4 col-md-4 col-lg-4 mt-4">
+                        <div class="card bg-dark ">
+                        <div class="card-header p-0"> <iframe width="100%" height="220" src={{video.videoLink}}></iframe></div>
+                            <div class="card-body">
+                              
+                            
+                              <h3 class="card-title "><a class="text-secondary text-decoration-none" href="{{ path('app_video_show', {id: video.id}) }}">{{ video.id }} {{ video.title }} </a></h3>
+                            <p class="card-text text-white">{{ video.description|u.truncate(10,'...',false)  }}</p>
+                            <div class="row">
+                            <div class="col-4"><a class="btn btn-outline-secondary" href="{{ path('app_video_show', {id: video.id}) }}">Détail</a></div>
+                            <div class="col-8" style="text-align:right;"><p class="text-secondary">Soumis {{ video.createdAt|ago }} Par {{ video.user.firstname~ " "~video.user.lastname }}</p></div>
+                            </div>
+                           
                              {% if video.isPremiumVideo  %}
-			                   <p > Premium Video </p>
+			                   <p class="text-white"> Premium Video </p>
 		                     {% else %}
-			                   <p > Non premium </p>
+			                   <p class="text-white" > Non Premium </p>
 		                     {% endif %} 
                             </div>
                         </div>
@@ -107,11 +86,16 @@
                    
             {% endfor %}
         </section>
-    </main>
-
-  {{ knp_pagination_render(pagination, null, {}, {
+        <div class="row py-5">
+        <div class="col text-center">
+        {{ knp_pagination_render(pagination, null, {}, {
    'align': 'center',
    'size': 'large',
    'rounded': true,
 }) }}
+        </div></div>
+
+    </main>
+
+  <style>body{background:rgb(33,37,41)}</style>
 {% endblock %}
